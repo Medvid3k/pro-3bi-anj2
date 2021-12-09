@@ -6,7 +6,7 @@ import java.util.ArrayList;
 //ArrayList lze vytvořit i s předem vytvořeným počtem prvků. Takto:
 //ar = new ArrayList<Integer>(N). Proveďte rychlostní test a srovnejte
 //s ar = new ArrayList<Integer>() pro milión prvků;
-public class ukol {
+public class Ukol {
     public static void main(String[] args) {
         int N = 1000000;
         ArrayList<Integer> sar = new ArrayList<>(N);
