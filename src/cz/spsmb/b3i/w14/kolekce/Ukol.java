@@ -1,8 +1,12 @@
 package cz.spsmb.b3i.w14.kolekce;
+
+import java.util.ArrayList;
+
+
 //ArrayList lze vytvořit i s předem vytvořeným počtem prvků. Takto:
 //ar = new ArrayList<Integer>(N). Proveďte rychlostní test a srovnejte
 //s ar = new ArrayList<Integer>() pro milión prvků;
-public class TypovanaKolekcePolymorfismus {
+public class ukol {
     public static void main(String[] args) {
         int N = 1000000;
         ArrayList<Integer> sar = new ArrayList<>(N);
