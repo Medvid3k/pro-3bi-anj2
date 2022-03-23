@@ -1,7 +1,5 @@
 package cz.spsmb.b3i.w24.piskorky;
 
-import javafx.application.Application;
-import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.ConnectException;
@@ -13,7 +11,7 @@ public class PiskorkyServer {
     public static PiskorkyStatus ps;
 
     public static void main(String[] args) throws IOException {
-        PiskorkyServer.ps = new PiskorkyStatus(10);
+        PiskorkyServer.ps = new PiskorkyStatus(25);
         int port = 8081;
         int request = 0;
         while (true) {
@@ -42,6 +40,7 @@ public class PiskorkyServer {
                                     pw.writeObject(PiskorkyServer.ps);
                                     request = 0;
                                 }
+                                System.out.println(PiskorkyServer.ps.getHraci());
                                 break;
                             // set status
                             case 30:
@@ -57,7 +56,8 @@ public class PiskorkyServer {
                 }
             }
             catch (SocketException e){
-                System.out.println("SocketException");
+                System.out.println(e.getMessage());
+                e.printStackTrace();
             }
 //            catch (ConnectException e) {
 //                System.out.println("connection reset ");

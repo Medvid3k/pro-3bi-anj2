@@ -1,14 +1,6 @@
 package cz.spsmb.b3i.w24.piskorky;
-
-import cz.spsmb.b3i.w13.spojovy_seznam.LinkedList;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableMap;
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +12,7 @@ public class PiskorkyStatus implements Serializable {
     Map[][] herniTlacitka;
     //aktivni Hráč se zde automaticky inicializuje na 0 (LOJZA), netřeba inicializovat
     int aktivniHrac;
+    boolean isStarted;
 
     public PiskorkyStatus(int rozmerHraciPlochy) {
         this.rozmerHraciPlochy = rozmerHraciPlochy;
@@ -49,5 +42,8 @@ public class PiskorkyStatus implements Serializable {
                 om.put("player", Integer.valueOf(-1));
             }
         }
+    }
+    public ArrayList<String> getHraci(){
+        return this.hraci;
     }
 }
