@@ -40,7 +40,9 @@ public class ServerThread extends Thread {
             // get status
             case 20:
                 try (var pw = new ObjectOutputStream(socket.getOutputStream())) {
-                    pw.writeObject(PiskorkyServer.ps);
+                    synchronized (PiskorkyServer.ps){
+                        pw.writeObject(PiskorkyServer.ps);
+                    }
                     request = 0;
                 } catch (IOException e) {
                     System.out.println("messsage:" + e.getMessage());
@@ -54,8 +56,10 @@ public class ServerThread extends Thread {
                     inp = this.socket.getInputStream();
                     ois = new ObjectInputStream(inp);
                     PiskorkyStatus ps  = (PiskorkyStatus) ois.readObject();
-                    if(!PiskorkyServer.ps.isEnded) {
-                        PiskorkyServer.ps = ps;
+                    synchronized (PiskorkyServer.ps){
+                        if(!PiskorkyServer.ps.isEnded) {
+                            PiskorkyServer.ps = ps;
+                        }
                     }
                     System.out.println(PiskorkyServer.ps.getHraci());
                 } catch (ClassNotFoundException | IOException e) {

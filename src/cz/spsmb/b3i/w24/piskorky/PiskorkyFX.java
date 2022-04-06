@@ -41,11 +41,12 @@ import java.util.LinkedList;
 //add --module-path "Y:\stemberk\verejne_zaci\javafx-sdk-17.0.1\lib" --add-modules javafx.controls,javafx.fxml
 public class PiskorkyFX extends Application {
     private final String VERSION = "1.0";
+    private final int MAX_PLAYER_LENGHT = 8;
     private final String TITULEK = "Piškorky" + this.VERSION;
     private PiskorkyStatus ps;
     private Button[][] herniTlacitka;
-    //private String hostname = "192.168.9.43";
-    private String hostname = "192.168.31.162";
+    private String hostname = "192.168.9.43";
+    //private String hostname = "192.168.31.162";
     //private String hostname = "localhost";
     private int port = 8081;
     private Timeline tl;
@@ -55,6 +56,17 @@ public class PiskorkyFX extends Application {
 
     public PiskorkyFX() {
         this.setPiskvorkyStatusFromServer();
+        if (!this.ps.VERSION.equals(this.VERSION)){
+            Stage kick = new Stage();
+            Label lkick = new Label("Spatna verze!");
+            HBox hkick = new HBox(lkick);
+            Scene skick = new Scene(hkick);
+            kick.setScene(skick);
+            kick.showAndWait();
+            Platform.exit();
+
+        }
+
         this.playerNameStage = new Stage();
         Label playerNameLabel = new Label("jmeno hráče: ");
         this.playerNameTextField = new TextField();
@@ -63,7 +75,7 @@ public class PiskorkyFX extends Application {
         Scene playerName = new Scene(playerNameRoot);
         this.playerNameStage.setScene(playerName);
         this.playerNameStage.showAndWait();
-        this.tl = new Timeline(new KeyFrame(Duration.millis(300), this::animationHandler));
+        this.tl = new Timeline(new KeyFrame(Duration.millis(1000), this::animationHandler));
         tl.setCycleCount(Timeline.INDEFINITE);
         tl.play();
     }
@@ -198,8 +210,12 @@ public class PiskorkyFX extends Application {
 
     private void handle(KeyEvent e) {
         if(e.getCode() == KeyCode.ENTER){
-            this.playerName = this.playerNameTextField.getText();
-            System.out.println(this.playerName);
+            this.playerName = this.playerNameTextField.getText().trim();
+            if(this.playerName.length() > MAX_PLAYER_LENGHT){
+                e.consume();
+                return;
+            }
+            this.setPiskvorkyStatusFromServer();
             this.ps.pridatHrace(this.playerName);
             this.sputPiskvorkyStatusToServer();
             this.playerNameStage.close();
@@ -220,7 +236,7 @@ public class PiskorkyFX extends Application {
 
 
         System.out.println();
-        int N = 5;
+        int N = 3;
         System.out.format("verticalWin:%b, horizontalWin:%b, diagonalwin:%b, isReverseDiagonalWin:%b%n",
                 this.isVerticalWin(i, j, N),
                 this.isHorizontalWin(i, j, N),
